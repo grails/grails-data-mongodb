@@ -14,6 +14,7 @@
  */
 package org.grails.datastore.mapping.mongo;
 
+import com.mongodb.ReadPreference;
 import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoClient;
 import org.bson.Document;
@@ -45,6 +46,7 @@ public abstract class AbstractMongoSession extends AbstractSession<MongoClient> 
     protected final String defaultDatabase;
     protected MongoDatastore mongoDatastore;
     protected WriteConcern writeConcern = null;
+    protected ReadPreference readPreference = null;
     protected boolean errorOccured = false;
     protected Map<PersistentEntity, String> mongoCollections = new ConcurrentHashMap<PersistentEntity, String>();
     protected Map<PersistentEntity, String> mongoDatabases = new ConcurrentHashMap<PersistentEntity, String>();
@@ -135,6 +137,14 @@ public abstract class AbstractMongoSession extends AbstractSession<MongoClient> 
         return writeConcern;
     }
 
+    public void setReadPreference(ReadPreference readPreference) {
+        this.readPreference = readPreference;
+    }
+
+    public ReadPreference getReadPreference() {
+        return readPreference;
+    }
+
     public MongoClient getNativeInterface() {
         return ((MongoDatastore)getDatastore()).getMongoClient();
     }
@@ -182,10 +192,16 @@ public abstract class AbstractMongoSession extends AbstractSession<MongoClient> 
         if(entity.isRoot()) {
             final String database = getDatabase(entity);
             final String collectionName = getCollectionName(entity);
-            return getNativeInterface()
+            com.mongodb.client.MongoCollection<Document> collection = getNativeInterface()
                     .getDatabase(database)
                     .getCollection(collectionName)
                     .withCodecRegistry(getDatastore().getCodecRegistry());
+            final ReadPreference readPreference = getReadPreference();
+            if (readPreference != null) {
+                return collection.withReadPreference(readPreference);
+            } else {
+                return collection;
+            }
         }
         else {
             final PersistentEntity root = entity.getRootEntity();

@@ -77,6 +77,14 @@ interface MongoStaticOperations<D> extends GormStaticOperations<D> {
     public <T> T withCollection(String collectionName, Closure<T> callable)
 
     /**
+     * Use the given read preference for the scope of the closure call
+     * @param readPreferenceString The read preference as string (primary, secondaryPreferred, etc)
+     * @param callable The callable
+     * @return The result of the closure
+     */
+    public <T> T withReadPreference(String readPreferenceString, Closure<T> callable)
+
+    /**
      * Use the given collection for this entity for the scope of the session
      *
      * @param collectionName The collection name

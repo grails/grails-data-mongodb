@@ -133,6 +133,19 @@ class MongoStaticApi<D> extends GormStaticApi<D> implements MongoAllOperations<D
     }
 
     @Override
+    def <T> T withReadPreference(String readPreferenceString, Closure<T> callable) {
+        withSession { AbstractMongoSession session ->
+            final previous = session.getReadPreference()
+            try {
+                session.setReadPreference(ReadPreference.valueOf(readPreferenceString))
+                return callable.call()
+            } finally {
+                session.setReadPreference(previous)
+            }
+        }
+    }
+
+    @Override
     String useCollection(String collectionName) {
         withSession { AbstractMongoSession session ->
             def entity = session.mappingContext.getPersistentEntity(persistentClass.name)

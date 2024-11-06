@@ -216,6 +216,10 @@ trait MongoEntity<D> implements GormEntity<D>, DynamicAttributes {
         currentMongoStaticApi().useDatabase(databaseName)
     }
 
+    static <T> T withReadPreference(String readPreferenceString, Closure<T> callable) {
+        currentMongoStaticApi().withReadPreference(readPreferenceString, callable)
+    }
+
     /**
      * Counts the number of hits
      * @param query The query
