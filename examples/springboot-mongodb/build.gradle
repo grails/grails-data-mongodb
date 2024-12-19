@@ -1,29 +1,12 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
-    }
-}
-
 apply plugin: 'org.springframework.boot'
 
 ext['groovy.version'] = "$groovyVersion"
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-    implementation "org.mongodb:mongodb-driver-sync:$mongodbDriverVersion"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.mongodb:mongodb-driver-sync"
     implementation project(":gorm-mongodb-spring-boot")
 
-    testImplementation"org.springframework.boot:spring-boot-starter-test:$springBootVersion"
-    testImplementation"org.spockframework:spock-core:$spockVersion"
-}
-
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if(details.requested.group == 'jakarta.validation' && details.requested.name.equals('validation-api')) {
-            details.useVersion("2.0.1.Final")
-        }
-    }
+    testImplementation"org.springframework.boot:spring-boot-starter-test"
+    testImplementation"org.spockframework:spock-core"
 }

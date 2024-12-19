@@ -1,33 +1,13 @@
-dependencyManagement {
-    imports {
-        mavenBom "org.grails:grails-bom:$pluginGrailsVersion"
-    }
-    applyMavenExclusions false
-}
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if(details.requested.group == 'org.grails' && 
-            details.requested.name.startsWith('grails-datastore') &&
-            !details.requested.name.contains('mongodb') &&
-            !details.requested.name.contains('bson')) {
-            details.useVersion(datastoreVersion)
-        } else if(details.requested.group == 'org.apache.groovy' && details.requested.name.startsWith('groovy')) {
-            details.useVersion(groovyVersion)   
-        } else if(details.requested.group == 'org.springframework') {
-            details.useVersion(springVersion)
-        }
-    }
-}
 dependencies {
-    compileOnly "org.grails:grails-core:$grailsVersion"
-    compileOnly "org.grails:grails-bootstrap:$grailsVersion"
-    compileOnly "org.spockframework:spock-core:$spockVersion", {
+    compileOnly "org.grails:grails-core"
+    compileOnly "org.grails:grails-bootstrap"
+    compileOnly "org.spockframework:spock-core", {
         exclude group: "junit", module: "junit-dep"
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
 
-    api "org.grails:grails-datastore-web:$datastoreVersion"
-    api "org.grails:grails-datastore-gorm-support:$datastoreVersion", {
+    api "org.grails:grails-datastore-web"
+    api "org.grails:grails-datastore-gorm-support", {
         exclude group:'org.springframework', module:'spring-context'
         exclude group:'org.springframework', module:'spring-core'
         exclude group:'org.springframework', module:'spring-beans'

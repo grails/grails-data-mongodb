@@ -37,7 +37,7 @@ jobs:
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         with:
-          arguments: build -Dgeb.env=chromeHeadless -x test -x integrationTest
+          arguments: build
   publish:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'

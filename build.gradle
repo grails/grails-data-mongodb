@@ -6,7 +6,6 @@ buildscript {
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
         classpath "org.asciidoctor:asciidoctor-gradle-jvm:$asciidoctorGradleVersion"
-        classpath "com.github.erdi:webdriver-binaries-gradle-plugin:$webdriverBinariesPluginVersion"
         classpath "io.github.gradle-nexus:publish-plugin:$gradleNexusPublishPluginVersion"
     }
 }
@@ -17,7 +16,6 @@ group "org.grails"
 version project.projectVersion
 
 ext {
-    hibernatePluginVersion = project.hibernatePluginVersion
     isCiBuild = project.hasProperty("isCiBuild") || System.getenv().get("CI") as Boolean
     isBuildSnapshot = project.version.endsWith("-SNAPSHOT")
     isReleaseVersion = !isBuildSnapshot
@@ -56,7 +54,6 @@ allprojects {
     ext.groovyVersion = System.getenv('CI_GROOVY_VERSION') ?: project.groovyVersion
 
     repositories {
-        mavenLocal()
         mavenCentral()
         maven { url = 'https://repo.grails.org/grails/core' }
         maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
@@ -69,33 +66,11 @@ allprojects {
                 url = 'https://repository.apache.org/content/repositories/snapshots'
             }
         }
+//        mavenLocal() // do not commit uncommented, for local testing only
     }
-
-    configurations.configureEach {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            if ((details.requested.group == 'org.codehaus.groovy' || details.requested.group == 'org.apache.groovy') && details.requested.name != 'groovy-bom') {
-                details.useTarget(group: 'org.apache.groovy', name: details.requested.name, version: groovyVersion)
-                details.because "The dependency coordinates are changed in Apache Groovy 4, plus ensure version"
-            }
-
-            if (details.requested.group == "io.micronaut" && details.requested.name == "micronaut-inject-groovy") {
-                details.useVersion(micronautVersion)
-            }
-        }
-    }
-
-
 }
 
 subprojects { Project subproject ->
-
-    ext['h2.version'] = h2Version
-    ext['gorm.version'] = datastoreVersion
-    ext['gorm.hibernate5.version'] = hibernatePluginVersion
-    ext['junit-jupiter.version'] = junitJupiterVersion
-    ext['spock.version'] = spockVersion
-    ext['mongodb.version'] = mongodbDriverVersion
-
     if (project.name.startsWith("examples")) {
 
         apply plugin: 'groovy'
@@ -106,39 +81,19 @@ subprojects { Project subproject ->
             apply plugin:"org.grails.grails-gsp"
         }
 
-        boolean usesGeb = project.name.contains('grails3-hibernate5-mongodb') || project.name.contains('grails3-mongodb') || project.name.contains('grails3-mongodb-database-per-tenant')|| project.name.contains('grails3-rxmongodb')
-
-        if (usesGeb) {
-            apply plugin:"com.github.erdi.webdriver-binaries"
-        }
-
         if (project.name == "examples-test-data-service") {
             apply plugin:"org.grails.grails-web"
         }
 
-        configurations.configureEach {
-            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-                if(details.requested.group == 'org.apache.groovy' && details.requested.name.startsWith('groovy')) {
-                    details.useVersion(groovyVersion)
-                } else if (details.requested.group == 'org.mongodb' && details.requested.module.name != 'mongodb-driver-rx') {
-                    details.useVersion(mongodbDriverVersion)
-                } else if (details.requested.group == 'org.springframework') {
-                    details.useVersion(springVersion)
-                } else if (details.requested.group == "org.springframework.boot") {
-                    details.useVersion(springBootVersion)
-                }
-            }
-        }
-
         dependencies {
-            testImplementation "jakarta.annotation:jakarta.annotation-api:$jakartaAnnotationApiVersion"
+            implementation platform("org.grails:grails-bom:$grailsVersion")
             testImplementation "io.micrometer:micrometer-core:latest.integration"
-            testImplementation "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
-            testImplementation "org.apache.groovy:groovy-test-junit5:$groovyVersion"
-            testImplementation "org.spockframework:spock-core:$spockVersion", { transitive = false }
-            testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
-            testImplementation "org.junit.platform:junit-platform-runner:$junitJupiterPlatformVersion"
-            testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
+            testImplementation "org.hibernate.validator:hibernate-validator"
+            testImplementation "org.apache.groovy:groovy-test-junit5"
+            testImplementation "org.spockframework:spock-core", { transitive = false }
+            testImplementation "org.junit.jupiter:junit-jupiter-api"
+            testImplementation "org.junit.platform:junit-platform-runner"
+            testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
         }
 
         tasks.withType(Test) {
@@ -235,56 +190,17 @@ subprojects { Project subproject ->
         withSourcesJar()
     }
 
-    configurations {
-        all {
-            resolutionStrategy {
-                force "org.apache.groovy:groovy:$groovyVersion"
-                force "org.apache.groovy:groovy-dateutil:$groovyVersion"
-                force "org.apache.groovy:groovy-xml:$groovyVersion"
-                force "org.apache.groovy:groovy-templates:$groovyVersion"
-            }
-        }
-    }
-
-    configurations.all {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            def dependencyName = details.requested.name
-            if (dependencyName.startsWith('mongodb-driver') &&  !dependencyName.contains('-rx')) {
-                details.useVersion(mongodbDriverVersion)
-            } else if( details.requested.group == 'org.grails' &&
-                    details.requested.name in ['grails-datastore-core',
-                                               'grails-datastore-async',
-                                               'grails-datastore-gorm',
-                                               'grails-datastore-gorm-async',
-                                               'grails-datastore-gorm-rx',
-                                               'grails-datastore-gorm-support',
-                                               'grails-datastore-gorm-tck',
-                                               'grails-datastore-gorm-test',
-                                               'grails-datastore-gorm-validation',
-                                               'grails-datastore-web']
-            ) {
-                details.useVersion(datastoreVersion)
-            } else if (details.requested.group == 'org.mongodb' && details.requested.module.name != 'mongodb-driver-rx') {
-                details.useVersion(mongodbDriverVersion)
-            } else if(details.requested.group == 'org.springframework') {
-                details.useVersion(springVersion)
-            } else if (details.requested.group == 'org.springframework.boot') {
-                details.useVersion(springBootVersion)
-            }
-        }
-    }
-
     dependencies {
-        api "org.apache.groovy:groovy:$groovyVersion"
-        api "org.apache.groovy:groovy-templates:$groovyVersion"
+        api "org.apache.groovy:groovy"
+        api "org.apache.groovy:groovy-templates"
 
-        testImplementation "org.apache.groovy:groovy-json:$groovyVersion"
-        testImplementation "org.apache.groovy:groovy-templates:$groovyVersion"
-        testImplementation "org.apache.groovy:groovy-test-junit5:$groovyVersion"
-        testImplementation "org.spockframework:spock-core:$spockVersion", { transitive = false }
-        testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
-        testImplementation "org.junit.platform:junit-platform-runner:$junitJupiterPlatformVersion"
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
+        testImplementation "org.apache.groovy:groovy-json"
+        testImplementation "org.apache.groovy:groovy-templates"
+        testImplementation "org.apache.groovy:groovy-test-junit5"
+        testImplementation "org.spockframework:spock-core", { transitive = false }
+        testImplementation "org.junit.jupiter:junit-jupiter-api"
+        testImplementation "org.junit.platform:junit-platform-runner"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     }
 
     publishing {

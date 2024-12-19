@@ -1,11 +1,10 @@
 package functional.tests
 
+import grails.plugin.geb.ContainerGebSpec
 import grails.testing.mixin.integration.Integration
 
-import geb.spock.GebSpec
-
 @Integration(applicationClass = Application)
-class BookControllerSpec extends GebSpec {
+class BookControllerSpec extends ContainerGebSpec {
 
     void "Test list books"() {
         when:"The home page is visited"

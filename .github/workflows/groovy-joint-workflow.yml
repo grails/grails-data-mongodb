@@ -161,7 +161,4 @@ jobs:
         with:
           arguments: |
             build
-            -Dgeb.env=chromeHeadless
             -x groovydoc
-            -x test
-            -x integrationTest

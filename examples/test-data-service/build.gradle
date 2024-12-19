@@ -4,6 +4,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
+        classpath "org.grails:grails-gradle-plugin:$grailsGradlePluginVersion"
         classpath "org.grails.plugins:views-gradle:$grailsViewsVersion"
     }
 }
@@ -11,28 +12,39 @@ buildscript {
 apply plugin: "java"
 
 dependencies {
-    profile "org.grails.profiles:rest-api"
-    implementation "org.springframework.boot:spring-boot-starter-logging"
-    implementation "org.springframework.boot:spring-boot-autoconfigure"
-    implementation "org.grails:grails-core:$grailsVersion"
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.boot:spring-boot-starter-tomcat"
-    implementation ("org.grails:grails-dependencies") {
-        exclude module:'grails-datastore-simple'
-    }
     implementation "org.grails:grails-plugin-codecs"
-    implementation "org.grails:grails-plugin-services"
     implementation "org.grails:grails-plugin-datasource"
-    implementation "org.grails:grails-web-boot"
-    implementation "org.grails:grails-logging"
     implementation "org.grails.plugins:cache"
     implementation "org.grails.plugins:events"
     implementation project(":grails-plugin")
-    implementation "org.mongodb:mongodb-driver-sync:$mongodbDriverVersion"
-    implementation "org.grails.plugins:views-json:$grailsViewsVersion"
-    implementation "org.grails.plugins:views-json-templates:$grailsViewsVersion"
+    implementation "org.mongodb:mongodb-driver-sync"
     implementation "org.grails.plugins:spring-security-core:$grailsSpringSecurityCoreVersion"
     implementation "org.grails.plugins:spring-security-rest:$grailsSpringSecurityRestVersion"
-    testImplementation "org.grails:grails-gorm-testing-support:$grailsTestingSupportVersion"
-    testImplementation "org.grails:grails-web-testing-support"
+
+    profile "org.grails.profiles:rest-api"
+    implementation "org.grails:grails-core"
+    implementation "org.grails:grails-logging"
+    implementation "org.grails:grails-plugin-databinding"
+    implementation "org.grails:grails-plugin-i18n"
+    implementation "org.grails:grails-plugin-interceptors"
+    implementation "org.grails:grails-plugin-rest"
+    implementation "org.grails:grails-plugin-services"
+    implementation "org.grails:grails-plugin-url-mappings"
+    implementation "org.grails:grails-web-boot"
+    implementation "org.grails.plugins:views-json"
+    implementation "org.grails.plugins:views-json-templates"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-logging"
+    implementation "org.springframework.boot:spring-boot-starter-tomcat"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    console "org.grails:grails-console"
+    runtimeOnly "com.h2database:h2"
+    runtimeOnly "org.apache.tomcat:tomcat-jdbc"
+    testImplementation "org.grails:grails-gorm-testing-support"
+    testImplementation "org.grails:views-json-testing-support"
+    testImplementation "org.spockframework:spock-core"
+
+
 }

@@ -1,61 +1,42 @@
+plugins {
+    id "com.bertramlabs.asset-pipeline" version "5.0.4"
+}
+
 group "examples"
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-logging"
-    implementation "org.springframework.boot:spring-boot-autoconfigure"
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.boot:spring-boot-starter-tomcat"
-    implementation "jakarta.servlet:jakarta.servlet-api:$servletApiVersion"
-    implementation "org.grails:grails-core:$grailsVersion"
-    implementation "org.grails:grails-dependencies:$grailsVersion", {
-        exclude module:'grails-datastore-simple'
-    }
-    implementation "org.grails:grails-web-boot:$grailsVersion"
+
     implementation project(":grails-plugin")
-    implementation "org.mongodb:mongodb-driver-sync:$mongodbDriverVersion"
+    implementation "org.mongodb:mongodb-driver-sync"
 
-    runtimeOnly "com.bertramlabs.plugins:asset-pipeline-grails:$assetPipelineVersion"
+    implementation "org.grails:grails-core"
+    implementation "org.grails:grails-logging"
+    implementation "org.grails:grails-plugin-databinding"
+    implementation "org.grails:grails-plugin-i18n"
+    implementation "org.grails:grails-plugin-interceptors"
+    implementation "org.grails:grails-plugin-rest"
+    implementation "org.grails:grails-plugin-services"
+    implementation "org.grails:grails-plugin-url-mappings"
+    implementation "org.grails:grails-web-boot"
+    implementation "org.grails.plugins:gsp"
+    implementation "org.grails.plugins:scaffolding"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    implementation "org.springframework.boot:spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-logging"
+    implementation "org.springframework.boot:spring-boot-starter-tomcat"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    console "org.grails:grails-console"
+    runtimeOnly "com.bertramlabs.plugins:asset-pipeline-grails"
     runtimeOnly "com.h2database:h2"
-    runtimeOnly "org.grails.plugins:scaffolding:$scaffoldingVersion"
-    runtimeOnly "org.grails.plugins:fields:$fieldsVersion"
+    runtimeOnly "org.apache.tomcat:tomcat-jdbc"
+    runtimeOnly "org.fusesource.jansi:jansi"
+    integrationTestImplementation testFixtures("org.grails.plugins:geb")
+    testImplementation "org.grails:grails-gorm-testing-support"
+    testImplementation "org.grails:grails-web-testing-support"
+    testImplementation "org.spockframework:spock-core"
 
-    testImplementation "org.grails:grails-gorm-testing-support:$grailsTestingSupportVersion"
-    testImplementation "org.grails:grails-web-testing-support:$grailsTestingSupportVersion"
-    testImplementation "io.netty:netty-transport:$nettyVersion"
-    testImplementation "io.netty:netty-codec:$nettyVersion"
-    testImplementation "io.netty:netty-handler:$nettyVersion"
     testImplementation "org.testcontainers:mongodb:$testcontainersMongodbVersion"
-
-    testImplementation("org.grails.plugins:geb:$gebPluginVersion") {
-        exclude group: 'org.gebish', module: 'geb-spock'
-    }
-    testImplementation "org.gebish:geb-spock:$gebVersion"
-    testImplementation "org.seleniumhq.selenium:selenium-remote-driver:$seleniumVersion"
-    testImplementation "org.seleniumhq.selenium:selenium-api:$seleniumVersion"
-    testImplementation "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
-
-    testRuntimeOnly "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
-    testRuntimeOnly "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
-    testRuntimeOnly "org.seleniumhq.selenium:selenium-safari-driver:$seleniumSafariDriverVersion"
-}
-
-tasks.withType(Test) {
-    systemProperty "geb.env", System.getProperty('geb.env')
-    systemProperty "geb.build.reportsDir", reporting.file("geb/integrationTest")
-    if (!System.getenv().containsKey('CI')) {
-        systemProperty 'webdriver.chrome.driver', System.getProperty('webdriver.chrome.driver')
-        systemProperty 'webdriver.gecko.driver', System.getProperty('webdriver.gecko.driver')
-    } else {
-        systemProperty 'webdriver.chrome.driver', "${System.getenv('CHROMEWEBDRIVER')}/chromedriver"
-        systemProperty 'webdriver.gecko.driver', "${System.getenv('GECKOWEBDRIVER')}/geckodriver"
-    }
-}
-
-webdriverBinaries {
-    if (!System.getenv().containsKey('CI')) {
-        chromedriver "$chromeDriverVersion"
-        geckodriver "$geckodriverVersion"
-    }
 }
 
 

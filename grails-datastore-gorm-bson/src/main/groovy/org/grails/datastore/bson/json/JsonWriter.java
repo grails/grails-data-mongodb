@@ -20,12 +20,12 @@ import org.bson.*;
 import org.bson.json.JsonWriterSettings;
 import org.bson.types.Decimal128;
 import org.bson.types.ObjectId;
-import org.springframework.util.Base64Utils;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -111,7 +111,7 @@ public class JsonWriter extends AbstractBsonWriter {
         try {
             writeNameHelper(getName());
             byte[] data = value.getData();
-            writer.write(Base64Utils.encodeToString(data));
+            writer.write(Base64.getEncoder().encodeToString(data));
             setState(getNextState());
         } catch (IOException e) {
             throwBsonException(e);
