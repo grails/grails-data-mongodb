@@ -1,7 +1,3 @@
-plugins {
-    id "com.bertramlabs.asset-pipeline" version "$assetPipelineVersion"
-}
-
 group "examples"
 
 dependencies {
@@ -29,7 +25,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-tomcat"
     implementation "org.springframework.boot:spring-boot-starter-validation"
     console "org.grails:grails-console"
-    runtimeOnly "com.bertramlabs.plugins:asset-pipeline-grails"
     runtimeOnly "com.h2database:h2"
     runtimeOnly "org.apache.tomcat:tomcat-jdbc"
     runtimeOnly "org.fusesource.jansi:jansi"
