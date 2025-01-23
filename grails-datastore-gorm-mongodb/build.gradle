@@ -48,6 +48,9 @@ test {
         showExceptions true
         showStackTraces true
     }
+
+    // Used in the TCK test to selectively enable/disable tests
+    systemProperty('mongodb.gorm.suite', 'true')
 }
 
 test.doFirst {
