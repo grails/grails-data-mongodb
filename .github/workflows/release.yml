@@ -48,14 +48,12 @@ jobs:
           publishToSonatype
           closeAndReleaseSonatypeStagingRepository
       - name: "🔨 Build Documentation"
-        if: success()
         env:
           GITHUB_MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew docs:docs
       - name: "🛫 Export Gradle Properties"
         uses: grails/github-actions/export-gradle-properties@v3
       - name: "🔍 Determine docs target repository"
-        if: success()
         uses: haya14busa/action-cond@94f77f7a80cd666cb3155084e428254fea4281fd # v1.2.1 (Use commit sha as this is a 3rd party action)
         id: docs_target
         with:
@@ -63,7 +61,6 @@ jobs:
           if_true: grails/grails-data-mapping
           if_false: ${{ github.repository }}
       - name: "📤 Publish to Github Pages"
-        if: success()
         uses: grails/github-pages-deploy-action@v3
         env:
           BETA: ${{ contains(steps.release_version.outputs.release_version, 'M') || contains(steps.release_version.outputs.release_version, 'RC') }}
@@ -77,5 +74,4 @@ jobs:
           TARGET_REPOSITORY: ${{ steps.docs_target.outputs.value }}
           VERSION: ${{ steps.release_version.outputs.release_version }}
       - name: "⚙️ Run post-release"
-        if: success()
         uses: grails/github-actions/post-release@v3

@@ -72,12 +72,10 @@ jobs:
         run: ./gradlew --no-build-cache publish
       - name: "🔨 Build Docs"
         id: docs
-        if: steps.build.outcome == 'success'
         env:
           GITHUB_MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew docs:docs
       - name: "👀 Determine docs target repository"
-        if: steps.docs.outcome == 'success'
         uses: haya14busa/action-cond@94f77f7a80cd666cb3155084e428254fea4281fd # v1.2.1 (Use commit sha as this is a 3rd party action)
         id: docs_target
         with:
@@ -85,7 +83,6 @@ jobs:
           if_true: grails/grails-data-mapping
           if_false: ${{ github.repository }}
       - name: "📤 Publish to Github Pages"
-        if: steps.docs.outcome == 'success'
         uses: grails/github-pages-deploy-action@v3
         env:
           BRANCH: gh-pages
