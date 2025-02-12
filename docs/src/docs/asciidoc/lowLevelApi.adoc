@@ -1,3 +1,4 @@
+== Using the MongoDB Driver Directly
 A lower level API is provided by the plugin via the MongoDB driver
 
 NOTE: There is an excellent tutorial on how to use the MongoDB Java driver's API directly in the https://mongodb.github.io/mongo-java-driver/3.1/driver/getting-started/quick-tour/[MongoDB documentation]

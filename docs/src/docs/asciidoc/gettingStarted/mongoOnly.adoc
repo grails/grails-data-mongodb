@@ -1,3 +1,4 @@
+=== Using MongoDB Standalone
 If you plan to use MongoDB as your primary datastore then you need to remove the Hibernate plugin from the `build.gradle` file by commenting out the hibernate line in the plugins block
 
 [source,groovy]

@@ -1,3 +1,4 @@
+=== Configuring Multi Tenancy
 You can configure Multi-Tenancy the same way described in the link:../../hibernate/manual/index.html#multiTenancy[GORM for Hibernate documenation], simply specify a multi tenancy mode and resolver:
 
 [source,yaml]

@@ -1,3 +1,4 @@
+=== Using GORM in Spring Boot
 To use GORM for MongoDB in Spring Boot add the necessary dependencies to your Boot application:
 
 [source,groovy,subs="attributes"]

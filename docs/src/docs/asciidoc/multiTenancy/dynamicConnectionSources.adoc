@@ -1,3 +1,4 @@
+=== Dynamic ConnectionSources
 If you are using a multi-tenancy mode of `DATABASE` then by default the expectation is that all tenants are configured in your `application.yml` file.
 
 However, it is possible read your Mongo client connection sources dynamically using link:../api/org/grails/datastore/mapping/mongo/connections/MongoConnectionSources.html[MongoConnectionSources].

@@ -1,3 +1,4 @@
+=== Identity Generation
 By default in GORM entities are supplied with an integer-based identifier. So for example the following entity:
 
 [source,groovy]

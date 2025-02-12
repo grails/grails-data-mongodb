@@ -1,3 +1,4 @@
+=== Multi Tenancy Modes
 As mentioned previously, GORM for MongoDB supports all three multi tenancy modes however there are some considerations to keep in mind.
 
 ==== Database Per Tenant

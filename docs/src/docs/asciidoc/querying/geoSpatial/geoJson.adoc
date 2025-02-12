@@ -1,3 +1,4 @@
+==== GeoJSON Data Models
 You can also store any GeoJSON shape using the `grails.mongodb.geo.Shape` super class:
 
 [source,groovy]

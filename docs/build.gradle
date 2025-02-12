@@ -1,3 +1,5 @@
+import org.asciidoctor.gradle.jvm.AsciidoctorTask
+
 plugins {
     id 'groovy'
     id 'org.asciidoctor.jvm.convert' version "$asciidoctorGradleVersion"
@@ -58,21 +60,29 @@ dependencies {
     implementation 'org.mongodb:mongodb-driver-sync'
 }
 
-asciidoctor {
-    baseDirFollowsSourceDir()
-    attributes('experimental': 'true',
-               'compat-mode': 'true',
-               'toc': 'left',
-               'icons': 'font',
-               'reproducible': '',
-               'version': projectVersion,
-               'pluginVersion': projectVersion,
-               'mongoDriverVersion': resolveMongodbVersion.resolved,
-               'sourcedir': "$project.rootDir")
+tasks.named('asciidoctor', AsciidoctorTask) { AsciidoctorTask it ->
+    dependsOn('resolveMongodbVersion')
 
-    jvm {
-        jvmArgs('--add-opens', 'java.base/sun.nio.ch=ALL-UNNAMED', '--add-opens', 'java.base/java.io=ALL-UNNAMED')
+    inputs.dir project.layout.projectDirectory.dir('src/docs')
+    outputs.dir layout.buildDirectory.dir('docs')
+
+    it.jvm {
+        jvmArgs("--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED", "--add-opens", "java.base/java.io=ALL-UNNAMED")
     }
+    it.baseDirFollowsSourceFile()
+    it.sourceDir layout.projectDirectory.dir('src/docs')
+    it.outputDir = layout.buildDirectory.dir('docs')
+    it.attributes = [
+            'experimental'  : 'true',
+            'compat-mode'   : 'true',
+            'toc'           : 'left',
+            'icons'         : 'font',
+            'reproducible'  : '',
+            'version'       : projectVersion,
+            'pluginVersion' : projectVersion,
+            'mongoDriverVersion': resolveMongodbVersion.resolved,
+            'sourcedir'     : "$project.rootDir"
+    ]
 }
 
 tasks.register('fetchSource') {

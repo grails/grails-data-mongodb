@@ -1,3 +1,4 @@
+=== Dynamic Attributes
 Unlike a relational database, MongoDB allows for "schemaless" persistence where there are no limits to the number of attributes a particular document can have. A GORM domain class on the other hand has a schema in that there are a fixed number of properties. For example consider the following domain class:
 
 [source,groovy]

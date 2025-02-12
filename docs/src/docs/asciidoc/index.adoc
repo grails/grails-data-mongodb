@@ -10,152 +10,94 @@ Graeme Rocher, Burt Beckwith, Puneet Behl
 include::introduction.adoc[]
 
 [[compatibility]]
-=== Compatibility with GORM for Hibernate
-
 include::introduction/compatibility.adoc[]
 
 [[releaseNotes]]
-=== Release Notes
-
 include::introduction/releaseNotes.adoc[]
 
 [[upgradeNotes]]
-=== Upgrade Notes
-
 include::introduction/upgradeNotes.adoc[]
 
 [[gettingStarted]]
-== Getting Started
-
-include::gettingStarted.adoc[]
+include::gettingStarted/basicSetup.adoc[]
 
 [[mongoOnly]]
-=== Using MongoDB Standalone
-
 include::gettingStarted/mongoOnly.adoc[]
 
 [[withHibernate]]
-=== Combining MongoDB and Hibernate
-
 include::gettingStarted/withHibernate.adoc[]
 
 [[advancedConfig]]
-=== Advanced Configuration
-
 include::gettingStarted/advancedConfig.adoc[]
 
 [[springBoot]]
-=== Using GORM in Spring Boot
-
 include::gettingStarted/springBoot.adoc[]
 
 [[outsideGrails]]
-=== GORM for MongoDB without Grails
-
 include::gettingStarted/outsideGrails.adoc[]
 
 [[objectMapping]]
-== Mapping Domain Classes
-
 include::objectMapping.adoc[]
 
 [[idGeneration]]
-=== Identity Generation
-
 include::objectMapping/idGeneration.adoc[]
 
 [[dirtyChecking]]
-=== Understanding Dirty Checking
-
 include::objectMapping/dirtyChecking.adoc[]
 
 [[queryIndexes]]
-=== Querying Indexing
-
 include::querying/queryIndexes.adoc[]
 
 [[writeConcern]]
-=== Customizing the WriteConcern
-
 include::objectMapping/writeConcern.adoc[]
 
 [[dynamicAttributes]]
-=== Dynamic Attributes
-
 include::objectMapping/dynamicAttributes.adoc[]
 
 [[customTypes]]
-=== Custom User Types
-
 include::objectMapping/customTypes.adoc[]
 
 [[querying]]
 == Querying
 
-[[queryingBasicsl]]
-=== Basic Querying
+[[queryingBasics]]
 include::querying/queryingBasics.adoc[]
 
 [[geoSpatial]]
-=== Geospacial Querying
-
 include::querying/geoSpatial.adoc[]
 
 [[twodsphere]]
-==== Geospacial 2D Sphere Support
-
 include::querying/geoSpatial/2dsphere.adoc[]
 
 [[twodindex]]
-==== Geospacial 2D Index Support
-
 include::querying/geoSpatial/2dindex.adoc[]
 
 [[geoJson]]
-==== GeoJSON Data Models
-
 include::querying/geoSpatial/geoJson.adoc[]
 
 [[textSearch]]
-=== Full Text Search
-
 include::querying/textSearch.adoc[]
 
 [[multipleDataSources]]
-== Multiple Data Sources
 include::multipleDataSources/index.adoc[]
 
 [[databaseSwitching]]
-== Switching Database or Collection at Runtime
-
 include::databaseSwitching.adoc[]
 
 [[multiTenancy]]
-== Multi-Tenancy
 include::multiTenancy/index.adoc[]
 
 [[stateless]]
-== Stateless Mode
-
 include::stateless.adoc[]
 
 [[lowLevelApi]]
-== Using the MongoDB Driver Directly
-
 include::lowLevelApi.adoc[]
 
 [[transactions]]
-== Transactions
-
 include::transactions.adoc[]
 
 [[testing]]
-== Unit Testing
-
 include::testing.adoc[]
-
-== Integration Testing
-
 include::integrationTesting.adoc[]
 
 [[reference]]

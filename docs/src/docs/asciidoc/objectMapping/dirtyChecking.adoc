@@ -1,3 +1,4 @@
+=== Understanding Dirty Checking
 In order to be as efficient as possible when it comes to generating updates GORM for MongoDb will track changes you make to persistent instances.
 
 When an object is updated only the properties or associations that have changed will be updated.

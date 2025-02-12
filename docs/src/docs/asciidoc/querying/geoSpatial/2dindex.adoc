@@ -1,3 +1,4 @@
+==== Geospacial 2D Index Support
 MongoDB supports https://docs.mongodb.org/manual/core/2d/[2d indexes] that store points on a two-dimensional plane. although they are considered legacy and you should use `2dsphere` indexes instead.
 
 It is possible to use a MongoDB 2d index by mapping a list or map property using the `geoIndex` mapping:

@@ -1,3 +1,4 @@
+=== Upgrade Notes
 ==== Dependency Upgrades
 
 GORM 7.1 supports Apache Groovy 3, Java 14, MongoDB Driver 4.3 and Spring 5.3.x.

@@ -1,3 +1,4 @@
+=== GORM for MongoDB without Grails
 If you wish to use GORM for MongoDB outside of a Grails application you should declare the necessary dependencies, for example in Gradle:
 
 [source,groovy,subs="attributes"]
