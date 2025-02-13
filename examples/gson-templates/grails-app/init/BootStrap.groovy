@@ -1,8 +1,11 @@
 import groovy.transform.CompileStatic
+import jakarta.servlet.ServletContext
 
 @CompileStatic
 class BootStrap {
 
-    def init = { servletContext ->
+    ServletContext servletContext
+
+    def init = {
     }
 }

@@ -1,10 +1,14 @@
 import functional.tests.*
+import jakarta.servlet.ServletContext
 
 class BootStrap {
 
-    def init = { servletContext ->
+    ServletContext servletContext
+
+    def init = {
     	Book.DB.drop()
     }
+
     def destroy = {
     }
 }
