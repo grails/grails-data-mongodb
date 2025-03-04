@@ -65,3 +65,24 @@ tasks.register('clean', Delete) {
     group = 'build'
     delete layout.buildDirectory
 }
+
+// Workaround needed for nexus publishing bug
+// version and group must be specified in the root project
+// https://github.com/gradle-nexus/publish-plugin/issues/310
+version = projectVersion
+group = 'this.will.be.overridden'
+
+def publishedProjects = [
+        'gorm-mongodb-spring-boot',
+        'grails-datastore-gorm-bson',
+        'grails-datastore-gorm-mongodb',
+        'grails-datastore-gorm-mongodb-ext',
+        'grails-plugin',
+        'views-json-templates'
+]
+subprojects {
+    if (name in publishedProjects) {
+        // This has to be applied here
+        apply plugin: 'org.grails.grails-publish'
+    }
+}
